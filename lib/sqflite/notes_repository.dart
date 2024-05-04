@@ -61,10 +61,4 @@ class NotesRepository {
         ),
     ];
   }
-
-  static Future<int> getId() async {
-    final db = await _database();
-    return Sqflite.firstIntValue(
-        await db.rawQuery('SELECT MAX(id) FROM $_tableName'))!;
-  }
 }

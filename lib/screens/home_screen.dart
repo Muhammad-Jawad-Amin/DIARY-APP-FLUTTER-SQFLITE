@@ -31,34 +31,37 @@ class HomeScreenState extends State<HomeScreen> {
       body: FutureBuilder(
         future: NotesRepository.getNotes(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return ItemNote(
-                  note: snapshot.data![index],
-                );
-              },
-            );
-          } else {
-            return Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                padding: const EdgeInsets.all(20),
-                child: const Text(
-                  "No Notes Yet!",
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return ItemNote(
+                    note: snapshot.data![index],
+                  );
+                },
+              );
+            } else {
+              return Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  padding: const EdgeInsets.all(20),
+                  child: const Text(
+                    "No Notes Yet!",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            );
+              );
+            }
           }
+          return const SizedBox();
         },
       ),
       floatingActionButton: FloatingActionButton(

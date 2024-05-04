@@ -108,7 +108,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
 
   Future _insertNote() async {
     final note = Note(
-      id: await NotesRepository.getId(),
       title: _titleController.text,
       description: _descriptionController.text,
       createdAt: DateTime.now(),

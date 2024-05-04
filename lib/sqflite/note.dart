@@ -1,11 +1,11 @@
 class Note {
-  int id;
+  int? id;
   String title;
   String description;
   DateTime createdAt;
 
   Note({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
     required this.createdAt,
@@ -13,7 +13,6 @@ class Note {
 
   Map<String, Object?> toMap() {
     return {
-      'id': id,
       'title': title,
       'description': description,
       'createdAt': createdAt.toString(),
