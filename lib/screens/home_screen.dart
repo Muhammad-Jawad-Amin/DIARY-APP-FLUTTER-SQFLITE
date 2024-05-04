@@ -21,7 +21,7 @@ class HomeScreenState extends State<HomeScreen> {
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Color.fromARGB(255, 225, 189, 189),
             wordSpacing: 10,
             letterSpacing: 5,
           ),
