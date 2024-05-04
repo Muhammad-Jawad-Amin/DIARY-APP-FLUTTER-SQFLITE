@@ -32,16 +32,7 @@ class HomeScreenState extends State<HomeScreen> {
         future: NotesRepository.getNotes(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return ItemNote(
-                    note: snapshot.data![index],
-                  );
-                },
-              );
-            } else {
+            if (snapshot.data == null || snapshot.data!.isEmpty) {
               return Center(
                 child: Container(
                   decoration: BoxDecoration(
@@ -58,6 +49,15 @@ class HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return ItemNote(
+                    note: snapshot.data![index],
+                  );
+                },
               );
             }
           }

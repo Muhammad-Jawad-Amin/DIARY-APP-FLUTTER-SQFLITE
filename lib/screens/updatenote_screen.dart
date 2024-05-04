@@ -80,7 +80,7 @@ class _UpdateNoteScreenState extends State<UpdateNoteScreen> {
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.blueAccent,
                     backgroundColor: Theme.of(context).colorScheme.primary,
-                    fixedSize: const Size(100, 50),
+                    fixedSize: const Size(120, 50),
                   ),
                   child: const Text(
                     "Cancel",
@@ -95,7 +95,7 @@ class _UpdateNoteScreenState extends State<UpdateNoteScreen> {
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.blueAccent,
                     backgroundColor: Theme.of(context).colorScheme.primary,
-                    fixedSize: const Size(100, 50),
+                    fixedSize: const Size(120, 50),
                   ),
                   child: const Text(
                     "UPDATE",
