@@ -1,11 +1,12 @@
 import 'dart:async';
-
 import 'package:diary_app_sqflite/sqflite/note.dart';
 import 'package:diary_app_sqflite/sqflite/notes_repository.dart';
 import 'package:flutter/material.dart';
 
 class AddNoteScreen extends StatefulWidget {
-  const AddNoteScreen({super.key});
+  final Note? note;
+
+  const AddNoteScreen({super.key, this.note});
 
   @override
   State<AddNoteScreen> createState() => _AddNoteScreenState();
@@ -16,13 +17,22 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   final _descriptionController = TextEditingController();
 
   @override
+  void initState() {
+    if (widget.note != null) {
+      _titleController.text = widget.note!.title;
+      _descriptionController.text = widget.note!.description;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text(
-          "ADD NOTE",
-          style: TextStyle(
+        title: Text(
+          widget.note != null ? "UPDATE NOTE" : "ADD NOTE",
+          style: const TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -82,7 +92,11 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    _insertNote();
+                    if (widget.note != null) {
+                      _updateNote();
+                    } else {
+                      _insertNote();
+                    }
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
@@ -90,9 +104,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     fixedSize: const Size(120, 50),
                   ),
-                  child: const Text(
-                    "Save",
-                    style: TextStyle(color: Colors.white),
+                  child: Text(
+                    widget.note != null ? "Update" : "Save",
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ],
@@ -113,5 +127,15 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       createdAt: DateTime.now(),
     );
     await NotesRepository.insertNote(note: note);
+  }
+
+  Future _updateNote() async {
+    final note = Note(
+      id: widget.note!.id,
+      title: _titleController.text,
+      description: _descriptionController.text,
+      createdAt: widget.note!.createdAt,
+    );
+    await NotesRepository.updateNote(note: note);
   }
 }

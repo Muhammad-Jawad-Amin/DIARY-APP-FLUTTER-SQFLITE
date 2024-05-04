@@ -1,4 +1,4 @@
-import "package:diary_app_sqflite/screens/updatenote_screen.dart";
+import "package:diary_app_sqflite/screens/addnote_screen.dart";
 import "package:diary_app_sqflite/sqflite/note.dart";
 import "package:diary_app_sqflite/widgets/date_part.dart";
 import "package:diary_app_sqflite/widgets/note_part.dart";
@@ -16,7 +16,7 @@ class ItemNote extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => UpdateNoteScreen(note: note),
+            builder: (context) => AddNoteScreen(note: note),
           ),
         );
       },
