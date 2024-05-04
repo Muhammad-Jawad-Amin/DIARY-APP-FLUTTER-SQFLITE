@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'package:diary_app_sqflite/manage-state/notes_provider.dart';
 import 'package:diary_app_sqflite/sqflite/note.dart';
-import 'package:diary_app_sqflite/sqflite/notes_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddNoteScreen extends StatefulWidget {
   final Note? note;
@@ -126,7 +127,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       description: _descriptionController.text,
       createdAt: DateTime.now(),
     );
-    await NotesRepository.insertNote(note: note);
+    Provider.of<NotesProvider>(context, listen: false).insertNote(note: note);
   }
 
   Future _updateNote() async {
@@ -136,6 +137,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       description: _descriptionController.text,
       createdAt: widget.note!.createdAt,
     );
-    await NotesRepository.updateNote(note: note);
+    Provider.of<NotesProvider>(context, listen: false).updateNote(note: note);
   }
 }

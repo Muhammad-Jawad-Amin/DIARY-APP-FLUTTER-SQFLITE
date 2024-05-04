@@ -1,7 +1,8 @@
+import "package:diary_app_sqflite/manage-state/notes_provider.dart";
 import "package:diary_app_sqflite/screens/addnote_screen.dart";
-import "package:diary_app_sqflite/sqflite/notes_repository.dart";
 import "package:diary_app_sqflite/widgets/item_note.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,49 +22,42 @@ class HomeScreenState extends State<HomeScreen> {
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 225, 189, 189),
+            color: Colors.white,
             wordSpacing: 10,
             letterSpacing: 5,
           ),
         ),
         centerTitle: true,
       ),
-      body: FutureBuilder(
-        future: NotesRepository.getNotes(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.data == null || snapshot.data!.isEmpty) {
-              return Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  padding: const EdgeInsets.all(20),
-                  child: const Text(
-                    "No Notes Yet!",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+      body: Consumer<NotesProvider>(builder: (context, provider, child) {
+        if (provider.notes.isEmpty) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              padding: const EdgeInsets.all(20),
+              child: const Text(
+                "No Notes Yet!",
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
-              );
-            } else {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return ItemNote(
-                    note: snapshot.data![index],
-                  );
-                },
-              );
-            }
-          }
-          return const SizedBox();
-        },
-      ),
+              ),
+            ),
+          );
+        } else {
+          return ListView.builder(
+              itemCount: provider.notes.length,
+              itemBuilder: (context, index) {
+                return ItemNote(
+                  note: provider.notes[index],
+                );
+              });
+        }
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

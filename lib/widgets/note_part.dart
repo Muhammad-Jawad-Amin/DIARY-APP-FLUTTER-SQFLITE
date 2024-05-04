@@ -1,7 +1,8 @@
+import 'package:diary_app_sqflite/manage-state/notes_provider.dart';
 import 'package:diary_app_sqflite/sqflite/note.dart';
-import 'package:diary_app_sqflite/sqflite/notes_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class NotePart extends StatelessWidget {
   final Note note;
@@ -80,7 +81,7 @@ class NotePart extends StatelessWidget {
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            _deleteNote();
+                            _deleteNote(context);
                           },
                           child: const Text("Delete"),
                         ),
@@ -100,7 +101,7 @@ class NotePart extends StatelessWidget {
     );
   }
 
-  Future _deleteNote() async {
-    NotesRepository.deleteNote(note: note);
+  Future _deleteNote(BuildContext context) async {
+    Provider.of<NotesProvider>(context, listen: false).deleteNote(note: note);
   }
 }
